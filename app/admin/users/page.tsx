@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Users, Search, Key, Copy, Check, RefreshCw, ArrowLeft, X } from "lucide-react"
+import { Label } from "@/components/ui/label"
+import { Users, Search, Key, Copy, Check, RefreshCw, ArrowLeft, X, Plus, UserPlus } from "lucide-react"
 import Image from "next/image"
 import { getAllDepartmentEmployees } from "@/lib/employees-data"
 
@@ -27,6 +28,8 @@ export default function UsersManagementPage() {
   const [isGenerating, setIsGenerating] = useState(false)
   const [copiedId, setCopiedId] = useState<string | null>(null)
   const [employeesData, setEmployeesData] = useState<any[]>([])
+  const [showAddForm, setShowAddForm] = useState(false)
+  const [newUser, setNewUser] = useState({ name: "", userId: "", password: "", position: "", department: "" })
 
   useEffect(() => {
     // التحقق من تسجيل الدخول
@@ -47,10 +50,48 @@ export default function UsersManagementPage() {
   }, [router])
 
   const loadUsers = () => {
+    // تحميل كل اليوزرات من الكود + localStorage
+    const allUsers: EmployeeUser[] = []
+    
+    // اليوزرات من القاموس الثابت
+    Object.entries(employeeUsernames).forEach(([name, data]) => {
+      allUsers.push({
+        id: data.userId,
+        name: name,
+        position: getPositionForUser(name),
+        department: getDepartmentForUser(name),
+        userId: data.userId,
+        password: data.password,
+        createdAt: new Date().toISOString(),
+      })
+    })
+    
+    // اليوزرات الخاصة
+    const specialUsers = [
+      { id: "gm", name: "م/ أحمد شوقي", position: "رئيس مجلس الإدارة", department: "الإدارة العليا", userId: "gm", password: "9528", createdAt: new Date().toISOString() },
+      { id: "QTY", name: "محمود إسماعيل", position: "مدير الجودة", department: "الجودة", userId: "QTY", password: "mm212", createdAt: new Date().toISOString() },
+      { id: "QTY2", name: "شادي مظهر", position: "مهندس جودة", department: "الجودة", userId: "QTY2", password: "mm2123", createdAt: new Date().toISOString() },
+    ]
+    allUsers.push(...specialUsers)
+    
+    // اليوزرات من localStorage
     const savedUsers = localStorage.getItem("employeeUsers")
     if (savedUsers) {
-      setUsers(JSON.parse(savedUsers))
+      const customUsers = JSON.parse(savedUsers)
+      allUsers.push(...customUsers)
     }
+    
+    setUsers(allUsers)
+  }
+  
+  const getPositionForUser = (name: string) => {
+    const employee = employeesData.find(emp => emp.name === name)
+    return employee?.position || "موظف"
+  }
+  
+  const getDepartmentForUser = (name: string) => {
+    const employee = employeesData.find(emp => emp.name === name)
+    return employee?.department || "عام"
   }
 
   const generatePassword = (name: string) => {
@@ -207,26 +248,34 @@ export default function UsersManagementPage() {
     return `${randomChars}${randomNumbers}`
   }
 
-  const generateAllUsers = () => {
-    setIsGenerating(true)
+  const addNewUser = () => {
+    if (!newUser.name || !newUser.userId || !newUser.password) {
+      alert("يرجى ملء جميع الحقول المطلوبة")
+      return
+    }
     
-    const newUsers: EmployeeUser[] = employeesData.map((emp, index) => ({
-      id: Date.now().toString() + index,
-      name: emp.name,
-      position: emp.position,
-      department: emp.department,
-      image: emp.image,
-      userId: generateUserId(emp.name, index),
-      password: generatePassword(emp.name),
+    const userToAdd: EmployeeUser = {
+      id: Date.now().toString(),
+      name: newUser.name,
+      position: newUser.position || "موظف",
+      department: newUser.department || "عام",
+      userId: newUser.userId,
+      password: newUser.password,
       createdAt: new Date().toISOString(),
-    }))
-
-    setUsers(newUsers)
-    localStorage.setItem("employeeUsers", JSON.stringify(newUsers))
+    }
     
-    setTimeout(() => {
-      setIsGenerating(false)
-    }, 1000)
+    // حفظ في localStorage
+    const savedUsers = localStorage.getItem("employeeUsers")
+    const customUsers = savedUsers ? JSON.parse(savedUsers) : []
+    customUsers.push(userToAdd)
+    localStorage.setItem("employeeUsers", JSON.stringify(customUsers))
+    
+    // تحديث القائمة
+    loadUsers()
+    
+    // إعادة تعيين النموذج
+    setNewUser({ name: "", userId: "", password: "", position: "", department: "" })
+    setShowAddForm(false)
   }
 
   const downloadExcel = () => {
@@ -302,19 +351,16 @@ export default function UsersManagementPage() {
             </div>
           </div>
 
-          {users.length === 0 && (
+          <div className="flex gap-3">
             <Button
-              onClick={generateAllUsers}
-              disabled={isGenerating}
+              onClick={() => setShowAddForm(!showAddForm)}
               className="gap-3 h-14 px-8 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-600 text-white font-black text-lg"
             >
-              <Key className="w-6 h-6" />
-              {isGenerating ? "جاري الإنشاء..." : "إنشاء يوزرات لجميع الموظفين"}
+              <Plus className="w-6 h-6" />
+              إضافة يوزر جديد
             </Button>
-          )}
-
-          {users.length > 0 && (
-            <div className="flex gap-3">
+            
+            {users.length > 0 && (
               <Button
                 onClick={downloadExcel}
                 className="gap-3 h-14 px-8 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-black text-lg"
@@ -324,21 +370,99 @@ export default function UsersManagementPage() {
                 </svg>
                 تحميل Excel
               </Button>
+            )}
+          </div>
+        </div>
+
+        {/* Add User Form */}
+        {showAddForm && (
+          <Card className="p-8 mb-6 bg-gradient-to-br from-gray-900 to-black border-2 border-green-500">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <div className="bg-green-500/20 p-3 rounded-xl">
+                  <UserPlus className="w-6 h-6 text-green-500" />
+                </div>
+                <h2 className="text-2xl font-black text-green-500">إضافة يوزر جديد</h2>
+              </div>
               <Button
-                onClick={() => {
-                  if (confirm('هل أنت متأكد من حذف جميع اليوزرات؟')) {
-                    setUsers([])
-                    localStorage.removeItem("employeeUsers")
-                  }
-                }}
-                className="gap-3 h-14 px-8 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-600 text-white font-black text-lg"
+                onClick={() => setShowAddForm(false)}
+                variant="ghost"
+                className="text-amber-500 hover:text-amber-400"
               >
                 <X className="w-6 h-6" />
-                مسح جميع اليوزرات
               </Button>
             </div>
-          )}
-        </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <Label className="text-amber-400 font-bold mb-2 block">الاسم *</Label>
+                <Input
+                  value={newUser.name}
+                  onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
+                  placeholder="أدخل اسم الموظف"
+                  className="h-12 bg-black border-2 border-amber-600/30 focus:border-amber-500 text-amber-100"
+                />
+              </div>
+              
+              <div>
+                <Label className="text-amber-400 font-bold mb-2 block">اليوزر *</Label>
+                <Input
+                  value={newUser.userId}
+                  onChange={(e) => setNewUser({ ...newUser, userId: e.target.value })}
+                  placeholder="أدخل اليوزر"
+                  className="h-12 bg-black border-2 border-amber-600/30 focus:border-amber-500 text-amber-100"
+                />
+              </div>
+              
+              <div>
+                <Label className="text-amber-400 font-bold mb-2 block">كلمة المرور *</Label>
+                <Input
+                  value={newUser.password}
+                  onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
+                  placeholder="أدخل كلمة المرور"
+                  className="h-12 bg-black border-2 border-amber-600/30 focus:border-amber-500 text-amber-100"
+                />
+              </div>
+              
+              <div>
+                <Label className="text-amber-400 font-bold mb-2 block">المسمى الوظيفي</Label>
+                <Input
+                  value={newUser.position}
+                  onChange={(e) => setNewUser({ ...newUser, position: e.target.value })}
+                  placeholder="أدخل المسمى الوظيفي"
+                  className="h-12 bg-black border-2 border-amber-600/30 focus:border-amber-500 text-amber-100"
+                />
+              </div>
+              
+              <div className="md:col-span-2">
+                <Label className="text-amber-400 font-bold mb-2 block">القسم</Label>
+                <Input
+                  value={newUser.department}
+                  onChange={(e) => setNewUser({ ...newUser, department: e.target.value })}
+                  placeholder="أدخل القسم"
+                  className="h-12 bg-black border-2 border-amber-600/30 focus:border-amber-500 text-amber-100"
+                />
+              </div>
+            </div>
+            
+            <div className="flex gap-3 mt-6">
+              <Button
+                onClick={addNewUser}
+                className="gap-2 h-12 px-8 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-600 text-white font-black"
+              >
+                <Check className="w-5 h-5" />
+                حفظ اليوزر
+              </Button>
+              <Button
+                onClick={() => setShowAddForm(false)}
+                variant="outline"
+                className="h-12 px-8 border-2 border-amber-600/30 text-amber-500 hover:bg-amber-600/10"
+              >
+                إلغاء
+              </Button>
+            </div>
+          </Card>
+        )}
 
         {users.length > 0 && (
           <>
@@ -483,16 +607,6 @@ export default function UsersManagementPage() {
               </div>
             )}
           </>
-        )}
-
-        {users.length === 0 && !isGenerating && (
-          <Card className="p-12 bg-gradient-to-br from-gray-900 to-black border-2 border-amber-600/30 text-center">
-            <div className="bg-amber-500/20 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Users className="w-12 h-12 text-amber-500" />
-            </div>
-            <h2 className="text-2xl font-black text-amber-500 mb-3">لم يتم إنشاء يوزرات بعد</h2>
-            <p className="text-amber-300 mb-6">اضغط على الزر أعلاه لإنشاء يوزرات لجميع الموظفين تلقائياً</p>
-          </Card>
         )}
       </div>
     </div>

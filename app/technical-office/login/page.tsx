@@ -47,6 +47,16 @@ const areaCredentials: Record<number, { username: string; password: string; name
   },
 }
 
+// يوزرات المهندسين لكل منطقة
+const engineerCredentials: Record<number, { username: string; password: string }[]> = {
+  1: [{ username: "ahmed.elazaby", password: "273742" }], // العاصمة
+  2: [{ username: "mostafa.kamal", password: "589130" }], // القاهرة الجديدة
+  3: [{ username: "mohamed.medhat", password: "593094" }], // التجمع
+  4: [{ username: "ahmed.bassyouni", password: "221382" }], // وسط
+  5: [{ username: "ahmed.hamed", password: "426815" }], // أكتوبر
+  6: [{ username: "mohamed.salah", password: "416769" }], // الأقاليم
+}
+
 export default function TechnicalOfficeLoginPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -73,8 +83,21 @@ export default function TechnicalOfficeLoginPage() {
     // Master account - يدخل على كل المناطق
     const isMasterAccount = username === "admin" && password === "admin2026"
     
+    // يوزر رئيس مجلس الإدارة - صلاحيات كاملة
+    const isChairman = username === "gm" && password === "9528"
+    
+    // يوزر مدير الجودة - يدخل على كل المناطق
+    const isQualityManager = username === "QTY" && password === "mm212"
+    
+    // يوزر مهندس الجودة - يدخل على كل المناطق
+    const isQualityEngineer = username === "QTY2" && password === "mm2123"
+    
+    // التحقق من يوزر المهندس المسؤول عن المنطقة
+    const areaEngineers = engineerCredentials[parseInt(areaId)] || []
+    const isAreaEngineer = areaEngineers.some(eng => eng.username === username && eng.password === password)
+    
     // التحقق من بيانات الدخول
-    if (isMasterAccount || (username === areaInfo.username && password === areaInfo.password)) {
+    if (isMasterAccount || isChairman || isQualityManager || isQualityEngineer || isAreaEngineer || (username === areaInfo.username && password === areaInfo.password)) {
       // حفظ معلومات تسجيل الدخول في localStorage
       localStorage.setItem(`area_${areaId}_auth`, "true")
       localStorage.setItem(`area_${areaId}_timestamp`, Date.now().toString())

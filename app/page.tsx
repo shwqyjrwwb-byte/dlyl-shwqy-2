@@ -29,8 +29,8 @@ export default function HomePage() {
       return
     }
 
-    // التحقق من يوزر المدير الخاص للدليل
-    if (userId === "ahmed1" && password === "ahmed1") {
+    // التحقق من يوزر رئيس مجلس الإدارة - صلاحيات كاملة
+    if (userId === "gm" && password === "9528") {
       localStorage.setItem("userLoggedIn", "true")
       localStorage.setItem("userId", userId)
       localStorage.setItem("employeeData", JSON.stringify({
@@ -40,6 +40,11 @@ export default function HomePage() {
         image: "/images/d8-aa-d8-b5-d9-85-d9-8a-d9-85-20-d8-a8-d8-af-d9-88-d9-86-20-d8-b9-d9-86-d9-88-d8-a7-d9-86-20-281-29.jpeg"
       }))
       localStorage.setItem("loginTime", new Date().toISOString())
+      // صلاحيات المكتب الفني - كل المناطق
+      for (let i = 1; i <= 6; i++) {
+        localStorage.setItem(`area_${i}_auth`, "true")
+        localStorage.setItem(`area_${i}_timestamp`, Date.now().toString())
+      }
 
       // تسجيل المدير كأونلاين
       try {
@@ -63,8 +68,116 @@ export default function HomePage() {
       return
     }
 
+    // يوزر مدير الجودة - صلاحيات خاصة
+    if (userId === "QTY" && password === "mm212") {
+      localStorage.setItem("userLoggedIn", "true")
+      localStorage.setItem("userId", userId)
+      localStorage.setItem("employeeData", JSON.stringify({
+        name: "محمود إسماعيل",
+        position: "مدير الجودة",
+        department: "الجودة",
+        image: undefined
+      }))
+      localStorage.setItem("loginTime", new Date().toISOString())
+      // صلاحيات المكتب الفني - كل المناطق
+      for (let i = 1; i <= 6; i++) {
+        localStorage.setItem(`area_${i}_auth`, "true")
+        localStorage.setItem(`area_${i}_timestamp`, Date.now().toString())
+      }
+
+      try {
+        await fetch("/api/users/online", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: userId,
+            userName: "محمود إسماعيل",
+            userPosition: "مدير الجودة",
+          }),
+        })
+      } catch (error) {
+        console.error("Error updating online status:", error)
+      }
+
+      router.push("/home")
+      setIsLoading(false)
+      return
+    }
+
+    // يوزر مهندس الجودة - صلاحيات خاصة
+    if (userId === "QTY2" && password === "mm2123") {
+      localStorage.setItem("userLoggedIn", "true")
+      localStorage.setItem("userId", userId)
+      localStorage.setItem("employeeData", JSON.stringify({
+        name: "شادي مظهر",
+        position: "مهندس جودة",
+        department: "الجودة",
+        image: undefined
+      }))
+      localStorage.setItem("loginTime", new Date().toISOString())
+      // صلاحيات المكتب الفني - كل المناطق
+      for (let i = 1; i <= 6; i++) {
+        localStorage.setItem(`area_${i}_auth`, "true")
+        localStorage.setItem(`area_${i}_timestamp`, Date.now().toString())
+      }
+
+      try {
+        await fetch("/api/users/online", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: userId,
+            userName: "شادي مظهر",
+            userPosition: "مهندس جودة",
+          }),
+        })
+      } catch (error) {
+        console.error("Error updating online status:", error)
+      }
+
+      router.push("/home")
+      setIsLoading(false)
+      return
+    }
+
+    // يوزرات الأقسام - Department Credentials
+    const departmentUsers: Record<string, { name: string; password: string; position: string; department: string }> = {
+      "office.shawky": { name: "مكتب م/ أحمد شوقي", password: "111111", position: "قسم مكتب م/ أحمد شوقي", department: "مكتب م/ أحمد شوقي" },
+      "general.management": { name: "الإدارة العامة", password: "222222", position: "قسم الإدارة العامة", department: "الإدارة العامة" },
+      "items.managers": { name: "مديرين البنود", password: "333333", position: "قسم مديرين البنود", department: "مديرين البنود" },
+      "hr.department": { name: "الموارد البشرية", password: "444444", position: "قسم الموارد البشرية", department: "الموارد البشرية" },
+      "social.media": { name: "السوشيال ميديا", password: "555555", position: "قسم السوشيال ميديا", department: "السوشيال ميديا" },
+      "eng.october": { name: "مهندسين - أكتوبر", password: "666666", position: "قسم مهندسين أكتوبر", department: "مهندسين - أكتوبر" },
+      "eng.newcairo": { name: "مهندسين - القاهرة الجديدة", password: "777777", position: "قسم مهندسين القاهرة الجديدة", department: "مهندسين - القاهرة الجديدة" },
+      "eng.capital": { name: "مهندسين - العاصمة", password: "888888", position: "قسم مهندسين العاصمة", department: "مهندسين - العاصمة" },
+      "eng.tagamoa": { name: "مهندسين - التجمع", password: "999999", position: "قسم مهندسين التجمع", department: "مهندسين - التجمع" },
+      "eng.downtown": { name: "مهندسين - وسط", password: "101010", position: "قسم مهندسين وسط", department: "مهندسين - وسط" },
+      "eng.regions": { name: "مهندسين - الأقاليم", password: "111222", position: "قسم مهندسين الأقاليم", department: "مهندسين - الأقاليم" },
+      "quality.dept": { name: "الجودة", password: "121212", position: "قسم الجودة", department: "الجودة" },
+      "inspection.dept": { name: "المعاينات", password: "131313", position: "قسم المعاينات", department: "المعاينات" },
+      "legal.dept": { name: "الشؤون القانونية", password: "141414", position: "قسم الشؤون القانونية", department: "الشؤون القانونية" },
+      "accounting.dept": { name: "الحسابات", password: "151515", position: "قسم الحسابات", department: "الحسابات" },
+      "carpentry.dept": { name: "النجارة", password: "161616", position: "قسم النجارة", department: "النجارة" },
+      "technical.office": { name: "المكتب الفني", password: "171717", position: "المكتب الفني", department: "المكتب الفني" },
+      "customer.service": { name: "خدمة العملاء", password: "181818", position: "قسم خدمة العملاء", department: "خدمة العملاء" },
+      "furniture.dept": { name: "الفرش والديكور", password: "191919", position: "قسم الفرش والديكور", department: "الفرش والديكور" },
+      "contracts.dept": { name: "التعاقدات", password: "202020", position: "قسم التعاقدات", department: "التعاقدات" },
+      "telesales.dept": { name: "تلي سيلز", password: "212121", position: "قسم تلي سيلز", department: "تلي سيلز" },
+      "ceramic.dept": { name: "السيراميك", password: "222333", position: "قسم السيراميك", department: "السيراميك" },
+      "operations.dept": { name: "التشغيل", password: "232323", position: "قسم التشغيل", department: "التشغيل" },
+      "buffet.dept": { name: "البوفيه", password: "242424", position: "قسم البوفيه", department: "البوفيه" },
+      "electric.showroom": { name: "معرض الكهرباء", password: "252525", position: "معرض الكهرباء", department: "معرض الكهرباء" },
+      "paint.showroom": { name: "معرض الدهانات", password: "262626", position: "معرض الدهانات", department: "معرض الدهانات" },
+      "it.department": { name: "IT", password: "272727", position: "قسم تكنولوجيا المعلومات", department: "IT" },
+      "vehicles.dept": { name: "السيارات", password: "282828", position: "قسم السيارات", department: "السيارات" },
+    }
+
     // قاموس اليوزرات الثابتة - جميع الموظفين
-    const defaultUsers: Record<string, { name: string; password: string; position: string; department: string }> = {
+    const defaultUsers: Record<string, { name: string; password: string; position: string; department: string; areaId?: number }> = {
       "malak": { name: "ملك رؤوف", password: "482498", position: "مديرة مكتب م/ أحمد شوقي", department: "مكتب م/ أحمد شوقي" },
       "mohamed.hassan": { name: "محمد حسن", password: "511776", position: "المدير العام", department: "الإدارة العامة" },
       "mahmoud.afandina": { name: "م/ محمود عبد الغني (أفندينا)", password: "861380", position: "مدير قسم الجبس بورد والرخام", department: "مديرين البنود" },
@@ -83,35 +196,35 @@ export default function HomePage() {
       "anas.atef": { name: "انس عاطف محمد", password: "340773", position: "Producer", department: "السوشيال ميديا" },
       "mahmoud.alaa": { name: "محمود علاء انصاري", password: "010618", position: "Moderator", department: "السوشيال ميديا" },
       "moamen.mostafa": { name: "مؤمن مصطفى", password: "587005", position: "Content Creator", department: "السوشيال ميديا" },
-      "ahmed.hamed": { name: "احمد حامد", password: "426815", position: "مدير منطقة أكتوبر", department: "مهندسين - أكتوبر" },
+      "ahmed.hamed": { name: "احمد حامد", password: "426815", position: "مدير منطقة أكتوبر", department: "مهندسين - أكتوبر", areaId: 5 },
       "ahmed.ragab": { name: "احمد رجب", password: "912261", position: "مهندس - أكتوبر", department: "مهندسين - أكتوبر" },
       "mohamed.obaida": { name: "محمد عبيده", password: "690947", position: "مهندس - أكتوبر", department: "مهندسين - أكتوبر" },
       "ahmed.ashraf": { name: "احمد اشرف", password: "500188", position: "مهندس - أكتوبر", department: "مهندسين - أكتوبر" },
       "mohamed.amin": { name: "محمد امين", password: "860050", position: "مهندس - أكتوبر", department: "مهندسين - أكتوبر" },
       "islam.adel": { name: "اسلام عادل", password: "044029", position: "مهندس - أكتوبر", department: "مهندسين - أكتوبر" },
       "ali.mohamed": { name: "علي", password: "997103", position: "مهندس - أكتوبر", department: "مهندسين - أكتوبر" },
-      "mostafa.kamal": { name: "مصطفي كمال", password: "589130", position: "مدير منطقة القاهرة الجديدة", department: "مهندسين - القاهرة الجديدة" },
+      "mostafa.kamal": { name: "مصطفي كمال", password: "589130", position: "مدير منطقة القاهرة الجديدة", department: "مهندسين - القاهرة الجديدة", areaId: 2 },
       "mostafa.eid": { name: "مصطفي عيد", password: "498820", position: "مهندس - القاهرة الجديدة", department: "مهندسين - القاهرة الجديدة" },
       "mohamed.gamal": { name: "محمد جمال", password: "864455", position: "مهندس - القاهرة الجديدة", department: "مهندسين - القاهرة الجديدة" },
       "abdelrahman.mohamed": { name: "عبدالرحمن محمد", password: "159043", position: "مهندس - القاهرة الجديدة", department: "مهندسين - القاهرة الجديدة" },
-      "ahmed.elazaby": { name: "احمد العزبي", password: "273742", position: "مدير منطقة العاصمة الإدارية", department: "مهندسين - العاصمة" },
+      "ahmed.elazaby": { name: "احمد العزبي", password: "273742", position: "مدير منطقة العاصمة الإدارية", department: "مهندسين - العاصمة", areaId: 1 },
       "hussein.faid": { name: "حسين فيض الله", password: "322922", position: "مهندس - العاصمة الإدارية", department: "مهندسين - العاصمة" },
       "mohamed.ashraf": { name: "محمد اشرف", password: "492117", position: "مهندس - العاصمة الإدارية", department: "مهندسين - العاصمة" },
       "mahmoud.mohsen": { name: "محمود محسن", password: "640037", position: "مهندس - العاصمة الإدارية", department: "مهندسين - العاصمة" },
       "mohamed.maher": { name: "محمد ماهر", password: "629354", position: "مهندس - العاصمة الإدارية", department: "مهندسين - العاصمة" },
-      "mohamed.medhat": { name: "محمد مدحت", password: "593094", position: "مدير منطقة التجمع الخامس", department: "مهندسين - التجمع" },
+      "mohamed.medhat": { name: "محمد مدحت", password: "593094", position: "مدير منطقة التجمع الخامس", department: "مهندسين - التجمع", areaId: 3 },
       "hossam.ghandour": { name: "حسام الغدور", password: "244495", position: "مهندس - التجمع الخامس", department: "مهندسين - التجمع" },
       "karim.samy": { name: "كريم سامي", password: "183789", position: "مهندس - التجمع الخامس", department: "مهندسين - التجمع" },
       "mohsen.abdelrazek": { name: "محسن عبدالرازق", password: "091234", position: "مهندس - التجمع الخامس", department: "مهندسين - التجمع" },
       "abdelnaby.morgan": { name: "عبدالنبي مرجان", password: "334460", position: "مهندس - التجمع الخامس", department: "مهندسين - التجمع" },
       "emad.shalaby": { name: "عماد شلبي", password: "455556", position: "مهندس - التجمع الخامس", department: "مهندسين - التجمع" },
       "mohamed.ghannam": { name: "محمد غنام", password: "003089", position: "مهندس - التجمع الخامس", department: "مهندسين - التجمع" },
-      "ahmed.bassyouni": { name: "احمد بسيوني", password: "221382", position: "مدير منطقة وسط", department: "مهندسين - وسط" },
+      "ahmed.bassyouni": { name: "احمد بسيوني", password: "221382", position: "مدير منطقة وسط", department: "مهندسين - وسط", areaId: 4 },
       "mohamed.gameel": { name: "محمد محمود الجميل", password: "264221", position: "مهندس - وسط", department: "مهندسين - وسط" },
       "amr.khaled": { name: "عمرو خالد", password: "107025", position: "مهندس - وسط", department: "مهندسين - وسط" },
       "abdelrahman.iraqi": { name: "عبدالرحمن العراقي", password: "074988", position: "مهندس - وسط", department: "مهندسين - وسط" },
       "bishoy": { name: "بيشوي", password: "948825", position: "مهندس - وسط", department: "مهندسين - وسط" },
-      "mohamed.salah": { name: "محمد صلاح", password: "416769", position: "مدير منطقة الأقاليم", department: "مهندسين - الأقاليم" },
+      "mohamed.salah": { name: "محمد صلاح", password: "416769", position: "مدير منطقة الأقاليم", department: "مهندسين - الأقاليم", areaId: 6 },
       "ali.mokhtar": { name: "علي مختار", password: "602018", position: "مهندس - الأقاليم", department: "مهندسين - الأقاليم" },
       "ahmed.elsheikh": { name: "احمد الشيخ (السادات)", password: "277915", position: "مهندس - الأقاليم", department: "مهندسين - الأقاليم" },
       "bayoumy": { name: "بيومي", password: "973235", position: "مهندس - الأقاليم", department: "مهندسين - الأقاليم" },
@@ -130,7 +243,7 @@ export default function HomePage() {
       "khaled.mohyeldin": { name: "خالد محي الدين عبد القادر", password: "296258", position: "محاسب", department: "الحسابات" },
       "khaled.atef": { name: "خالد عاطف عبد الغني محمد", password: "329792", position: "محاسب مخزن", department: "الحسابات" },
       "heba.tawfik": { name: "هبه توفيق", password: "183223", position: "مسئولة تحويلات", department: "الحسابات" },
-      "karim.atef": { name: "كريم عاطف", password: "922582", position: "مسئول إضافات", department: "الحسابات" },
+      "karim.atef": { name: "كريم عاطف", password: "922582", position: "مدير قسم الحسابات", department: "الحسابات" },
       "hasnaa.emad": { name: "حسناء عماد", password: "544901", position: "مسئول إضافات", department: "الحسابات" },
       "abdullah.essam": { name: "عبد الله عصام", password: "672999", position: "مسئول إضافات", department: "الحسابات" },
       "mohamed.salem": { name: "محمد سالم صلاح الدين", password: "494073", position: "مسئول إضافات", department: "الحسابات" },
@@ -189,7 +302,41 @@ export default function HomePage() {
       "azzam": { name: "عزام", password: "108751", position: "مسؤول السيارات", department: "السيارات" },
     }
 
-    // التحقق من اليوزرات الثابتة أولاً
+    // التحقق من يوزرات الأقسام أولاً
+    if (departmentUsers[userId] && departmentUsers[userId].password === password) {
+      const dept = departmentUsers[userId]
+      localStorage.setItem("userLoggedIn", "true")
+      localStorage.setItem("userId", userId)
+      localStorage.setItem("employeeData", JSON.stringify({
+        name: dept.name,
+        position: dept.position,
+        department: dept.department,
+        image: undefined
+      }))
+      localStorage.setItem("loginTime", new Date().toISOString())
+
+      try {
+        await fetch("/api/users/online", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: userId,
+            userName: dept.name,
+            userPosition: dept.position,
+          }),
+        })
+      } catch (error) {
+        console.error("Error updating online status:", error)
+      }
+
+      router.push("/home")
+      setIsLoading(false)
+      return
+    }
+
+    // التحقق من اليوزرات الثابتة للموظفين
     if (defaultUsers[userId] && defaultUsers[userId].password === password) {
       const user = defaultUsers[userId]
       localStorage.setItem("userLoggedIn", "true")
@@ -201,6 +348,12 @@ export default function HomePage() {
         image: undefined
       }))
       localStorage.setItem("loginTime", new Date().toISOString())
+
+      // إذا كان المهندس له منطقة، نحفظ صلاحيات المكتب الفني
+      if ('areaId' in user && user.areaId) {
+        localStorage.setItem(`area_${user.areaId}_auth`, "true")
+        localStorage.setItem(`area_${user.areaId}_timestamp`, Date.now().toString())
+      }
 
       try {
         await fetch("/api/users/online", {
