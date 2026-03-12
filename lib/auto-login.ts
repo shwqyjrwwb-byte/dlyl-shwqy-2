@@ -7,14 +7,9 @@ export interface AutoLoginConfig {
 
 // قائمة المهندسين الذين لديهم دخول تلقائي
 export const autoLoginUsers: Record<string, AutoLoginConfig> = {
-  'asmaa.ali': {
-    username: 'asmaa.ali',
-    password: 'asmaa2026',
-    redirectTo: '/technical-office'
-  },
-  'omar': {
-    username: 'omar',
-    password: 'omar2026',
+  'eslam.khaled': {
+    username: 'eslam.khaled',
+    password: 'tech2026',
     redirectTo: '/technical-office'
   },
   'yara.yousry': {
@@ -37,9 +32,9 @@ export const autoLoginUsers: Record<string, AutoLoginConfig> = {
     password: 'aya2026',
     redirectTo: '/technical-office'
   },
-  'hanafrah.tamer': {
-    username: 'hanafrah.tamer',
-    password: 'hanafrah2026',
+  'farah.tamer': {
+    username: 'farah.tamer',
+    password: 'farah2026',
     redirectTo: '/technical-office'
   },
   'abdullah.reda': {
@@ -52,39 +47,12 @@ export const autoLoginUsers: Record<string, AutoLoginConfig> = {
     password: 'mariam2026',
     redirectTo: '/technical-office'
   },
-  'aya.elbieh': {
-    username: 'aya.elbieh',
-    password: 'ayaelbieh2026',
+    password: 'mariam2026',
     redirectTo: '/technical-office'
   },
   'alaa.fares': {
     username: 'alaa.fares',
     password: 'alaa2026',
-    redirectTo: '/technical-office'
-  },
-  'eslam.khaled': {
-    username: 'eslam.khaled',
-    password: 'tech2026',
-    redirectTo: '/technical-office'
-  },
-  'mostafa.shawky': {
-    username: 'mostafa.shawky',
-    password: 'media2026',
-    redirectTo: '/technical-office'
-  },
-  'wael.raafat': {
-    username: 'wael.raafat',
-    password: 'finance2026',
-    redirectTo: '/technical-office'
-  },
-  'hagar.abdelaziz': {
-    username: 'hagar.abdelaziz',
-    password: 'hr2026',
-    redirectTo: '/technical-office'
-  },
-  'mohammad.saeed': {
-    username: 'mohammad.saeed',
-    password: 'operations2026',
     redirectTo: '/technical-office'
   }
 }

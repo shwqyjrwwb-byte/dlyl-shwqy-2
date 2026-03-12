@@ -1,14 +1,12 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { PageHeader } from "@/components/page-header"
 import { Card } from "@/components/ui/card"
-import { Briefcase, MapPin, UserCircle, Upload, FolderOpen, Loader2, FileText, LogOut } from "lucide-react"
-import Link from "next/link"
+import { Briefcase, MapPin, FolderOpen, Loader2 } from "lucide-react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { getCurrentTechnicalUser, logoutTechnicalUser, isSessionValid } from "@/lib/technical-office-auth"
 
 interface Client {
   id: string
@@ -89,70 +87,9 @@ export default function TechnicalOfficePage() {
   const router = useRouter()
   const [areas, setAreas] = useState<AreaData[]>(initialAreas)
   const [loading, setLoading] = useState(false)
-  const [currentUser, setCurrentUser] = useState<any>(null)
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null)
-
-  // التحقق من تسجيل الدخول
-  useEffect(() => {
-    const user = getCurrentTechnicalUser()
-    const sessionValid = isSessionValid()
-    
-    if (user && sessionValid) {
-      setCurrentUser(user)
-      setIsAuthenticated(true)
-    } else {
-      setIsAuthenticated(false)
-    }
-  }, [router])
-
-  const handleLogout = () => {
-    logoutTechnicalUser()
-    router.replace('/')
-  }
-
-  // إذا لم يتم التحقق بعد
-  if (isAuthenticated === null) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="w-12 h-12 animate-spin text-primary mx-auto mb-4" />
-          <p className="text-muted-foreground">جاري التحقق من الصلاحيات...</p>
-        </div>
-      </div>
-    )
-  }
-
-  // إذا لم يكن مسجل دخول
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
-        <div className="text-center max-w-md">
-          <div className="mb-6">
-            <Briefcase className="w-16 h-16 text-primary mx-auto mb-4" />
-            <h1 className="text-2xl font-bold text-foreground mb-2">المكتب الفني</h1>
-            <p className="text-muted-foreground">يجب تسجيل الدخول للوصول إلى هذه الصفحة</p>
-          </div>
-          <div className="space-y-3">
-            <Button
-              onClick={() => router.replace('/technical-office/login/engineers-login')}
-              className="w-full"
-            >
-              تسجيل الدخول كمهندس
-            </Button>
-            <Button
-              onClick={() => router.replace('/')}
-              variant="outline"
-              className="w-full"
-            >
-              العودة للصفحة الرئيسية
-            </Button>
-          </div>
-        </div>
-      </div>
-    )
-  }
 
   const totalClients = areas.reduce((sum, area) => sum + area.clientsCount, 0)
+  
   return (
     <div className="min-h-screen bg-background">
       <PageHeader 
@@ -175,7 +112,7 @@ export default function TechnicalOfficePage() {
             )}
           </div>
           
-          {/* معلومات المستخدم وأزرار التحكم */}
+          {/* أزرار التحكم */}
           <div className="flex items-center gap-2 md:gap-4 flex-wrap">
             <Button
               onClick={() => router.replace('/')}
@@ -184,20 +121,6 @@ export default function TechnicalOfficePage() {
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
               <span className="hidden sm:inline">الصفحة الرئيسية</span>
-            </Button>
-            
-            <div className="text-right hidden md:block">
-              <p className="text-sm text-muted-foreground">مرحباً</p>
-              <p className="font-bold text-foreground">{currentUser?.name}</p>
-            </div>
-            
-            <Button
-              onClick={handleLogout}
-              variant="outline"
-              className="flex items-center gap-2 hover:bg-destructive hover:text-destructive-foreground"
-            >
-              <LogOut className="w-4 h-4" />
-              <span className="hidden sm:inline">تسجيل الخروج</span>
             </Button>
           </div>
         </div>
@@ -243,23 +166,14 @@ export default function TechnicalOfficePage() {
 
                 {/* Clients Section */}
                 <div className="p-4 sm:p-6 bg-gradient-to-b from-card to-card/80 space-y-2 sm:space-y-3">
-                  {/* زر الدخول للمنطقة */}
+                  {/* زر الدخول للمنطقة مباشرة */}
                   <div className="space-y-2 sm:space-y-3">
                     <Button
-                      onClick={() => router.replace(`/technical-office/login?area=${area.id}`)}
-                      className="flex items-center justify-center gap-2 sm:gap-3 w-full py-3 sm:py-4 px-4 sm:px-6 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-xl transition-all font-bold shadow-lg hover:shadow-xl hover:scale-105 duration-300 h-auto text-sm sm:text-base"
+                      onClick={() => router.replace(`/technical-office/area/${area.id}`)}
+                      className="flex items-center justify-center gap-2 sm:gap-3 w-full py-3 sm:py-4 px-4 sm:px-6 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary text-white rounded-xl transition-all font-bold shadow-lg hover:shadow-xl hover:scale-105 duration-300 h-auto text-sm sm:text-base"
                     >
                       <FolderOpen className="w-5 h-5 sm:w-6 sm:h-6" />
-                      <span>الدخول كمسؤول منطقة</span>
-                    </Button>
-                    
-                    <Button
-                      onClick={() => router.replace(`/technical-office/login/engineers-login?area=${area.id}`)}
-                      variant="outline"
-                      className="flex items-center justify-center gap-2 sm:gap-3 w-full py-3 sm:py-4 px-4 sm:px-6 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white rounded-xl transition-all font-bold shadow-lg hover:shadow-xl hover:scale-105 duration-300 h-auto text-sm sm:text-base"
-                    >
-                      <Briefcase className="w-5 h-5 sm:w-6 sm:h-6" />
-                      <span>الدخول كمهندس مكتب فني</span>
+                      <span>دخول المنطقة</span>
                     </Button>
                   </div>
                 </div>
