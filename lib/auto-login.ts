@@ -46,14 +46,6 @@ export const autoLoginUsers: Record<string, AutoLoginConfig> = {
     username: 'mariam.youssef',
     password: 'mariam2026',
     redirectTo: '/technical-office'
-  },
-    password: 'mariam2026',
-    redirectTo: '/technical-office'
-  },
-  'alaa.fares': {
-    username: 'alaa.fares',
-    password: 'alaa2026',
-    redirectTo: '/technical-office'
   }
 }
 
