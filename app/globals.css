@@ -78,6 +78,82 @@
 @theme inline {
   --font-sans: "Geist", "Geist Fallback", "Cairo", sans-serif;
   --font-mono: "Geist Mono", "Geist Mono Fallback";
+}
+
+/* Mobile-first responsive design improvements */
+@media (max-width: 640px) {
+  /* Ensure minimum touch target size of 44px */
+  button, 
+  [role="button"], 
+  input[type="button"], 
+  input[type="submit"], 
+  a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Improve text readability on mobile */
+  body {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  /* Better spacing for mobile */
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 768px) {
+  body {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+
+/* Touch-friendly improvements */
+@media (pointer: coarse) {
+  /* Larger touch targets for touch devices */
+  button, 
+  [role="button"], 
+  input, 
+  select, 
+  textarea {
+    min-height: 48px;
+  }
+  
+  /* Remove hover effects on touch devices */
+  .hover\:scale-105:hover {
+    transform: none;
+  }
+  
+  .hover\:shadow-xl:hover {
+    box-shadow: none;
+  }
+}
+
+/* Prevent horizontal scroll on mobile */
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Better focus indicators for accessibility */
+*:focus-visible {
+  outline: 2px solid oklch(0.8 0.15 85);
+  outline-offset: 2px;
+}
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);

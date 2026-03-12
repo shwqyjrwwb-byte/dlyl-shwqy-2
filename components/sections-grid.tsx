@@ -82,11 +82,11 @@ const sections = [
 
 export function SectionsGrid() {
   return (
-    <section className="py-8 sm:py-12 md:py-16 px-3 sm:px-4 md:px-6">
+    <section className="py-6 sm:py-8 md:py-12 lg:py-16 px-3 sm:px-4 md:px-6">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-xl sm:text-2xl font-bold text-gold text-center mb-6 sm:mb-8 md:mb-12">اختر القسم للوصول السريع</h2>
+        <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gold text-center mb-4 sm:mb-6 md:mb-8 lg:mb-12 leading-tight">اختر القسم للوصول السريع</h2>
 
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+        <div className="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 xs:gap-3 sm:gap-4 md:gap-6">
           {sections.map((section) => (
             <SectionCard key={section.id} section={section} />
           ))}

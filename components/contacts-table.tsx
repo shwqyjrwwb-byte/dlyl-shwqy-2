@@ -1568,45 +1568,45 @@ export function ContactsTable() {
   const currentDepartment = selectedDepartment ? departmentsData.find((d) => d.id === selectedDepartment) : null
 
   return (
-    <div className="container mx-auto px-4 py-8 relative">
+    <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-6 md:py-8 relative">
       {/* Header */}
-      <div className="text-center mb-10 relative">
+      <div className="text-center mb-6 sm:mb-8 md:mb-10 relative">
         {/* بانر رمضاني احترافي */}
-        <div className="mb-8 p-8 bg-gradient-to-r from-amber-600 via-yellow-600 to-amber-600 rounded-3xl shadow-2xl relative overflow-hidden">
+        <div className="mb-4 sm:mb-6 md:mb-8 p-4 sm:p-6 md:p-8 bg-gradient-to-r from-amber-600 via-yellow-600 to-amber-600 rounded-2xl sm:rounded-3xl shadow-2xl relative overflow-hidden">
           {/* خلفية زخرفية */}
           <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-0 left-0 text-9xl">🌙</div>
-            <div className="absolute bottom-0 right-0 text-9xl">🏮</div>
+            <div className="absolute top-0 left-0 text-4xl sm:text-6xl md:text-9xl">🌙</div>
+            <div className="absolute bottom-0 right-0 text-4xl sm:text-6xl md:text-9xl">🏮</div>
           </div>
           
           <div className="relative z-10">
-            <div className="flex items-center justify-center gap-4 mb-4">
-              <span className="text-5xl animate-pulse">🌙</span>
-              <h2 className="text-4xl font-bold text-white drop-shadow-2xl">
+            <div className="flex items-center justify-center gap-2 sm:gap-3 md:gap-4 mb-2 sm:mb-3 md:mb-4">
+              <span className="text-2xl sm:text-3xl md:text-5xl animate-pulse">🌙</span>
+              <h2 className="text-xl sm:text-2xl md:text-4xl font-bold text-white drop-shadow-2xl">
                 رمضان كريم
               </h2>
-              <span className="text-5xl animate-pulse">✨</span>
+              <span className="text-2xl sm:text-3xl md:text-5xl animate-pulse">✨</span>
             </div>
-            <p className="text-white text-xl font-semibold drop-shadow-lg">
+            <p className="text-white text-sm sm:text-lg md:text-xl font-semibold drop-shadow-lg">
               كل عام وأنتم بخير
             </p>
           </div>
         </div>
         
-        <h1 className="text-4xl font-bold text-foreground mb-3 flex items-center justify-center gap-3">
-          <Phone className="w-10 h-10 text-primary" />
-          دليل جهات الاتصال
+        <h1 className="text-xl sm:text-2xl md:text-4xl font-bold text-foreground mb-2 sm:mb-3 flex items-center justify-center gap-2 sm:gap-3">
+          <Phone className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 text-primary" />
+          <span className="leading-tight">دليل جهات الاتصال</span>
         </h1>
-        <p className="text-muted-foreground text-lg">تواصل مع فريق العمل بسهولة</p>
+        <p className="text-muted-foreground text-sm sm:text-base md:text-lg">تواصل مع فريق العمل بسهولة</p>
       </div>
 
       {/* Search */}
-      <div className="max-w-2xl mx-auto mb-10">
+      <div className="max-w-2xl mx-auto mb-6 sm:mb-8 md:mb-10">
         <div className="relative">
-          <Search className="absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 text-muted-foreground" />
+          <Search className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 w-5 h-5 sm:w-6 sm:h-6 text-muted-foreground" />
           <Input
             placeholder="ابحث عن موظف، قسم، أو منصب..."
-            className="pr-14 text-right bg-card border-2 border-border hover:border-primary/50 focus:border-primary transition-colors h-14 text-lg shadow-lg"
+            className="pr-10 sm:pr-14 text-right bg-card border-2 border-border hover:border-primary/50 focus:border-primary transition-colors h-12 sm:h-14 text-base sm:text-lg shadow-lg"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -1617,13 +1617,13 @@ export function ContactsTable() {
         <>
           {/* Executives Section */}
           {filteredExecutives.length > 0 && (
-            <section className="mb-16 relative">
-              <div className="flex items-center justify-center gap-3 mb-8">
-                <div className="h-1 w-12 bg-primary rounded"></div>
-                <Star className="w-8 h-8 text-primary" />
-                <h2 className="text-3xl font-bold text-foreground">القيادة التنفيذية</h2>
-                <Star className="w-8 h-8 text-primary" />
-                <div className="h-1 w-12 bg-primary rounded"></div>
+            <section className="mb-8 sm:mb-12 md:mb-16 relative">
+              <div className="flex items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6 md:mb-8">
+                <div className="h-1 w-6 sm:w-8 md:w-12 bg-primary rounded"></div>
+                <Star className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-primary" />
+                <h2 className="text-lg sm:text-xl md:text-3xl font-bold text-foreground">القيادة التنفيذية</h2>
+                <Star className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-primary" />
+                <div className="h-1 w-6 sm:w-8 md:w-12 bg-primary rounded"></div>
               </div>
               <div className="max-w-2xl mx-auto">
                 <ExecutiveFlipCard />
@@ -1633,14 +1633,14 @@ export function ContactsTable() {
 
           {/* Departments Grid */}
           <section className="relative">
-            <div className="flex items-center justify-center gap-3 mb-8">
-              <div className="h-1 w-12 bg-primary rounded"></div>
-              <Users className="w-8 h-8 text-primary" />
-              <h2 className="text-3xl font-bold text-foreground">الأقسام والإدارات</h2>
-              <Users className="w-8 h-8 text-primary" />
-              <div className="h-1 w-12 bg-primary rounded"></div>
+            <div className="flex items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6 md:mb-8">
+              <div className="h-1 w-6 sm:w-8 md:w-12 bg-primary rounded"></div>
+              <Users className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-primary" />
+              <h2 className="text-lg sm:text-xl md:text-3xl font-bold text-foreground">الأقسام والإدارات</h2>
+              <Users className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-primary" />
+              <div className="h-1 w-6 sm:w-8 md:w-12 bg-primary rounded"></div>
             </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
               {filteredDepartments.map((dept) => {
                 const DeptIcon = getDepartmentIcon(dept.id)
                 const iconColor = getDepartmentColor(dept.id)
@@ -1649,7 +1649,7 @@ export function ContactsTable() {
                 return (
                   <Card
                     key={dept.id}
-                    className="group relative p-0 cursor-pointer hover:border-primary/50 transition-all hover:shadow-xl hover:shadow-primary/20 hover:scale-105 duration-300 overflow-hidden h-48"
+                    className="group relative p-0 cursor-pointer hover:border-primary/50 transition-all hover:shadow-xl hover:shadow-primary/20 hover:scale-105 duration-300 overflow-hidden h-40 sm:h-44 md:h-48"
                     onClick={() => setSelectedDepartment(dept.id)}
                   >
                     {/* الصورة كخلفية */}
@@ -1660,7 +1660,7 @@ export function ContactsTable() {
                           alt={dept.name}
                           fill
                           className="object-contain group-hover:scale-105 transition-transform duration-500"
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                         />
                       </div>
                     ) : (
@@ -1668,20 +1668,20 @@ export function ContactsTable() {
                     )}
                     
                     {/* المحتوى */}
-                    <div className="relative h-full p-6 flex flex-col justify-between">
+                    <div className="relative h-full p-3 sm:p-4 md:p-6 flex flex-col justify-between">
                       {/* السهم */}
                       <div className="flex items-center justify-end">
-                        <ChevronLeft className={`w-6 h-6 ${deptImage ? 'text-primary bg-white/90 rounded-full p-1 shadow-lg' : 'text-primary'} group-hover:translate-x-1 transition-transform duration-300`} />
+                        <ChevronLeft className={`w-5 h-5 sm:w-6 sm:h-6 ${deptImage ? 'text-primary bg-white/90 rounded-full p-1 shadow-lg' : 'text-primary'} group-hover:translate-x-1 transition-transform duration-300`} />
                       </div>
                       
                       {/* معلومات القسم - فقط للبطاقات بدون صور */}
                       {!deptImage && (
                         <div>
-                          <h3 className="font-bold text-xl mb-3 group-hover:scale-105 transition-all duration-300 text-foreground group-hover:text-primary">
+                          <h3 className="font-bold text-sm sm:text-base md:text-xl mb-2 sm:mb-3 group-hover:scale-105 transition-all duration-300 text-foreground group-hover:text-primary leading-tight">
                             {dept.name}
                           </h3>
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <Users className="w-4 h-4" />
+                          <div className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm text-muted-foreground">
+                            <Users className="w-3 h-3 sm:w-4 sm:h-4" />
                             <span className="font-semibold">{dept.team.length + (dept.manager ? 1 : 0)} موظف</span>
                           </div>
                         </div>

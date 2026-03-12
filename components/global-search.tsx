@@ -357,7 +357,7 @@ export function GlobalSearch() {
   return (
     <div className="w-full max-w-2xl mx-auto relative">
       <div className="relative">
-        <Search className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
+        <Search className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground pointer-events-none" />
         <Input
           type="text"
           placeholder="ابحث عن موظف، قسم، باقة، مواصفة، مقاول، منطقة، عميل..."
@@ -365,29 +365,29 @@ export function GlobalSearch() {
           onChange={(e) => setSearchQuery(e.target.value)}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setTimeout(() => setIsFocused(false), 200)}
-          className="w-full h-14 pr-12 pl-12 text-base bg-card border-border focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+          className="w-full h-12 sm:h-14 pr-10 sm:pr-12 pl-10 sm:pl-12 text-sm sm:text-base bg-card border-border focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
           dir="rtl"
         />
         {searchQuery && (
           <button
             onClick={handleClear}
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+            className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1"
             aria-label="مسح البحث"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         )}
       </div>
 
       {isFocused && searchQuery && searchResults.length > 0 && (
-        <Card className="absolute top-full mt-2 w-full bg-card border-border shadow-xl z-50 max-h-96 overflow-y-auto">
-          <div className="p-2">
+        <Card className="absolute top-full mt-2 w-full bg-card border-border shadow-xl z-50 max-h-80 sm:max-h-96 overflow-y-auto">
+          <div className="p-1 sm:p-2">
             {searchResults.map((result, index) => (
-              <Link key={index} href={result.href} className="block p-3 rounded-lg hover:bg-accent transition-colors">
-                <div className="flex items-center justify-between gap-3">
-                  <div className="flex-1 text-right">
-                    <h3 className="font-semibold text-foreground">{result.title}</h3>
-                    <p className="text-sm text-muted-foreground mt-0.5">{result.category}</p>
+              <Link key={index} href={result.href} className="block p-2 sm:p-3 rounded-lg hover:bg-accent transition-colors">
+                <div className="flex items-center justify-between gap-2 sm:gap-3">
+                  <div className="flex-1 text-right min-w-0">
+                    <h3 className="font-semibold text-foreground text-sm sm:text-base truncate">{result.title}</h3>
+                    <p className="text-xs sm:text-sm text-muted-foreground mt-0.5 truncate">{result.category}</p>
                   </div>
                   <div className="flex-shrink-0">
                     <div className="w-2 h-2 rounded-full bg-primary"></div>
@@ -401,10 +401,10 @@ export function GlobalSearch() {
 
       {isFocused && searchQuery && searchResults.length === 0 && (
         <Card className="absolute top-full mt-2 w-full bg-card border-border shadow-xl z-50">
-          <div className="p-6 text-center text-muted-foreground">
-            <Search className="w-12 h-12 mx-auto mb-3 opacity-30" />
-            <p>لا توجد نتائج لـ &quot;{searchQuery}&quot;</p>
-            <p className="text-sm mt-1">جرب كلمات بحث أخرى</p>
+          <div className="p-4 sm:p-6 text-center text-muted-foreground">
+            <Search className="w-8 h-8 sm:w-12 sm:h-12 mx-auto mb-2 sm:mb-3 opacity-30" />
+            <p className="text-sm sm:text-base">لا توجد نتائج لـ &quot;{searchQuery}&quot;</p>
+            <p className="text-xs sm:text-sm mt-1">جرب كلمات بحث أخرى</p>
           </div>
         </Card>
       )}
