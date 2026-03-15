@@ -38,6 +38,45 @@
   --sidebar-accent-foreground: oklch(0.95 0 0);
   --sidebar-border: oklch(0.25 0 0);
   --sidebar-ring: oklch(0.8 0.15 85);
+  
+  /* Color aliases */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-gold: oklch(0.8 0.15 85);
 }
 
 .dark {
@@ -80,9 +119,17 @@
   --font-mono: "Geist Mono", "Geist Mono Fallback";
 }
 
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
 /* Mobile-first responsive design improvements */
 @media (max-width: 640px) {
-  /* Ensure minimum touch target size of 44px */
   button, 
   [role="button"], 
   input[type="button"], 
@@ -92,13 +139,11 @@
     min-width: 44px;
   }
   
-  /* Improve text readability on mobile */
   body {
     font-size: 14px;
     line-height: 1.5;
   }
   
-  /* Better spacing for mobile */
   .container {
     padding-left: 1rem;
     padding-right: 1rem;
@@ -119,7 +164,6 @@
 
 /* Touch-friendly improvements */
 @media (pointer: coarse) {
-  /* Larger touch targets for touch devices */
   button, 
   [role="button"], 
   input, 
@@ -128,7 +172,6 @@
     min-height: 48px;
   }
   
-  /* Remove hover effects on touch devices */
   .hover\:scale-105:hover {
     transform: none;
   }
@@ -154,56 +197,8 @@ html {
   outline: 2px solid oklch(0.8 0.15 85);
   outline-offset: 2px;
 }
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
-  /* Custom gold color */
-  --color-gold: oklch(0.8 0.15 85);
-}
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
-/* Updated animation for continuous right-to-left scrolling */
+/* Animations */
 @keyframes scroll-rtl {
   0% {
     transform: translateX(0);
@@ -221,7 +216,6 @@ html {
   animation-play-state: paused;
 }
 
-/* Ramadan marquee animation - moves from right to left */
 @keyframes marquee-rtl {
   0% {
     transform: translateX(0);
@@ -235,40 +229,6 @@ html {
   animation: marquee-rtl 30s linear infinite;
 }
 
-/* Responsive improvements */
-@media (max-width: 640px) {
-  html {
-    font-size: 14px;
-  }
-}
-
-@media (min-width: 641px) and (max-width: 768px) {
-  html {
-    font-size: 15px;
-  }
-}
-
-@media (min-width: 769px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-/* Prevent horizontal scroll */
-html, body {
-  overflow-x: hidden;
-  max-width: 100vw;
-}
-
-/* Touch-friendly targets */
-@media (pointer: coarse) {
-  button, a, input, select, textarea {
-    min-height: 44px;
-    min-width: 44px;
-  }
-}
-
-/* Ramadan Banner Animation - يدخل من الشمال ويخرج من اليمين */
 @keyframes scroll {
   0% {
     transform: translateX(-100%);
@@ -285,7 +245,6 @@ html, body {
 .animate-scroll:hover {
   animation-play-state: paused;
 }
-
 
 /* 3D Flip Card Styles */
 .perspective-1000 {
@@ -321,4 +280,18 @@ html, body {
 
 .animate-spin-slow:hover {
   animation: spin-slow 1s linear infinite;
+}
+
+/* Touch-friendly targets */
+@media (pointer: coarse) {
+  button, a, input, select, textarea {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Prevent horizontal scroll */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
 }

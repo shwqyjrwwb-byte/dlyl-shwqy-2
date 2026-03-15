@@ -171,45 +171,65 @@ export function PDFUploadSection({ clientId, onFileUpload }: PDFUploadSectionPro
     try {
       // حفظ كل ملف في قاعدة البيانات
       const savedFiles = []
+      const failedFiles = []
       
       for (const file of pendingFiles) {
-        const response = await fetch('/api/files', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            clientId,
-            name: file.name,
-            url: file.url,
-            size: formatFileSize(file.size),
-            type: file.type || "تأسيسات"
+        try {
+          const response = await fetch('/api/files', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              clientId,
+              name: file.name,
+              url: file.url,
+              size: formatFileSize(file.size),
+              type: file.type || "تأسيسات"
+            })
           })
-        })
 
-        if (response.ok) {
-          const savedFile = await response.json()
-          savedFiles.push(savedFile)
-        } else {
-          throw new Error('فشل في حفظ الملف: ' + file.name)
+          if (response.ok) {
+            const savedFile = await response.json()
+            savedFiles.push(savedFile)
+          } else {
+            const errorData = await response.json()
+            failedFiles.push({ name: file.name, error: errorData.error || 'خطأ غير معروف' })
+          }
+        } catch (fileError) {
+          failedFiles.push({ name: file.name, error: 'فشل في الاتصال بالخادم' })
         }
       }
 
-      // نقل الملفات من المعلقة إلى المحفوظة
-      setFiles((prev) => [...prev, ...pendingFiles])
-      
-      // استدعاء callback إذا كان موجوداً
-      if (onFileUpload) {
-        pendingFiles.forEach(file => onFileUpload(file))
+      // نقل الملفات المحفوظة بنجاح فقط
+      if (savedFiles.length > 0) {
+        const successfulFiles = pendingFiles.filter(file => 
+          savedFiles.some(saved => saved.name === file.name)
+        )
+        setFiles((prev) => [...prev, ...successfulFiles])
+        
+        // استدعاء callback للملفات المحفوظة بنجاح
+        if (onFileUpload) {
+          successfulFiles.forEach(file => onFileUpload(file))
+        }
+
+        // إزالة الملفات المحفوظة بنجاح من القائمة المعلقة
+        setPendingFiles(prev => prev.filter(file => 
+          !savedFiles.some(saved => saved.name === file.name)
+        ))
       }
 
-      // مسح الملفات المعلقة
-      setPendingFiles([])
-      
-      alert(`تم حفظ ${savedFiles.length} ملف بنجاح في قاعدة البيانات!`)
+      // عرض النتائج
+      if (savedFiles.length > 0 && failedFiles.length === 0) {
+        alert(`تم حفظ جميع الملفات بنجاح! (${savedFiles.length} ملف)`)
+      } else if (savedFiles.length > 0 && failedFiles.length > 0) {
+        alert(`تم حفظ ${savedFiles.length} ملف بنجاح، فشل في حفظ ${failedFiles.length} ملف:\n${failedFiles.map(f => `- ${f.name}: ${f.error}`).join('\n')}`)
+      } else {
+        alert(`فشل في حفظ جميع الملفات:\n${failedFiles.map(f => `- ${f.name}: ${f.error}`).join('\n')}`)
+      }
     } catch (error) {
-      alert("حدث خطأ أثناء حفظ الملفات: " + (error instanceof Error ? error.message : 'خطأ غير معروف'))
-      console.error(error)
+      alert("حدث خطأ عام أثناء حفظ الملفات: " + (error instanceof Error ? error.message : 'خطأ غير معروف'))
+      console.error('خطأ في حفظ الملفات:', error)
     } finally {
       setIsSaving(false)
     }
