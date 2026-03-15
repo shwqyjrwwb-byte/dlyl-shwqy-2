@@ -401,81 +401,91 @@ export const technicalOfficeUsers: TechnicalOfficeUser[] = [
     id: 'tech-001',
     name: 'إسلام خالد',
     username: 'islam.khaled',
-    password: '679887',
+    password: 'tech2026',
     phone: '01156679887',
     email: 'islam.khaled@shawkygroup.com',
     role: 'manager',
-    areas: [1, 2, 3, 4, 5, 6] // جميع المناطق
+    areas: [1, 2, 3, 4, 5, 6]
   },
   {
     id: 'tech-002',
     name: 'يارا يسري شعبان',
     username: 'yara.yousry',
-    password: '997506',
+    password: 'yara2026',
     phone: '01103997506',
     email: 'yara.yousry@shawkygroup.com',
     role: 'area_engineer',
-    areas: [1, 2, 3, 4, 5, 6] // جميع المناطق
+    areas: [1, 2, 3, 4, 5, 6]
   },
   {
     id: 'tech-003',
     name: 'سارة أحمد محمد أحمد',
     username: 'sara.ahmed',
-    password: '101181',
+    password: 'sara2026',
     phone: '01282101181',
     email: 'sara.ahmed@shawkygroup.com',
     role: 'area_engineer',
-    areas: [1, 2, 3, 4, 5, 6] // جميع المناطق
+    areas: [1, 2, 3, 4, 5, 6]
   },
   {
     id: 'tech-004',
     name: 'كيرلس زكريا غطاس عوض',
     username: 'kyrillos.zakaria',
-    password: '411913',
+    password: 'kyrillos2026',
     phone: '01100411913',
     email: 'kyrillos.zakaria@shawkygroup.com',
     role: 'area_engineer',
-    areas: [1, 2, 3, 4, 5, 6] // جميع المناطق
+    areas: [1, 2, 3, 4, 5, 6]
   },
   {
     id: 'tech-005',
     name: 'آيه نعيم أنور محمود',
     username: 'aya.naeem',
-    password: '800548',
+    password: 'aya2026',
     phone: '01110800548',
     email: 'aya.naeem@shawkygroup.com',
     role: 'area_engineer',
-    areas: [1, 2, 3, 4, 5, 6] // جميع المناطق
+    areas: [1, 2, 3, 4, 5, 6]
   },
   {
     id: 'tech-006',
     name: 'فرح تامر محمد',
     username: 'farah.tamer',
-    password: '473346',
+    password: 'farah2026',
     phone: '01115473346',
     email: 'farah.tamer@shawkygroup.com',
     role: 'area_engineer',
-    areas: [1, 2, 3, 4, 5, 6] // جميع المناطق
+    areas: [1, 2, 3, 4, 5, 6]
   },
   {
     id: 'tech-007',
     name: 'عبد الله رضا محمد عبد العزيز',
     username: 'abdullah.reda',
-    password: '119496',
+    password: 'abdullah2026',
     phone: '01200119496',
     email: 'abdullah.reda@shawkygroup.com',
     role: 'area_engineer',
-    areas: [1, 2, 3, 4, 5, 6] // جميع المناطق
+    areas: [1, 2, 3, 4, 5, 6]
   },
   {
     id: 'tech-008',
     name: 'مريم يوسف',
     username: 'maryam.youssef',
-    password: '593289',
+    password: 'mariam2026',
     phone: '01501593289',
     email: 'maryam.youssef@shawkygroup.com',
     role: 'area_engineer',
-    areas: [1, 2, 3, 4, 5, 6] // جميع المناطق
+    areas: [1, 2, 3, 4, 5, 6]
+  },
+  {
+    id: 'tech-009',
+    name: 'علاء فارس',
+    username: 'alaa.fares',
+    password: 'alaa2026',
+    phone: '01000000000',
+    email: 'alaa.fares@shawkygroup.com',
+    role: 'area_engineer',
+    areas: [1, 2, 3, 4, 5, 6]
   }
 ]
 

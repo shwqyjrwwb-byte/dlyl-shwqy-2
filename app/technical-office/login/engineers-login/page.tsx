@@ -180,25 +180,9 @@ export default function EngineersLoginPage() {
           </form>
 
           <div className="mt-6 pt-6 border-t border-gray-700">
-            <h3 className="text-sm font-medium text-gray-400 mb-2">معلومات تسجيل الدخول:</h3>
-            <div className="space-y-1 text-xs text-gray-500 max-h-48 overflow-y-auto">
-              <p>مدير المكتب الفني: eslam.khaled / tech2026</p>
-              <p>مهندس التسويق: mostafa.shawky / media2026</p>
-              <p>مهندس المالية: wael.raafat / finance2026</p>
-              <p>مهندس الموارد البشرية: hagar.abdelaziz / hr2026</p>
-              <p>مهندس التشغيل: mohammad.saeed / operations2026</p>
-              <p>المهندسة أسماء علي: asmaa.ali / asmaa2026</p>
-              <p>المهندس عمر: omar / omar2026</p>
-              <p>المهندسة يارا يسري: yara.yousry / yara2026</p>
-              <p>المهندسة سارة أحمد: sara.ahmed / sara2026</p>
-              <p>المهندس كيرلس زكريا: kyrillos.zakaria / kyrillos2026</p>
-              <p>المهندسة آية نعيم: aya.naeem / aya2026</p>
-              <p>المهندسة هنفرح تامر: hanafrah.tamer / hanafrah2026</p>
-              <p>المهندس عبد الله رضا: abdullah.reda / abdullah2026</p>
-              <p>المهندسة مريم يوسف: mariam.youssef / mariam2026</p>
-              <p>المهندسة آية البيه: aya.elbieh / ayaelbieh2026</p>
-              <p>المهندس علاء فارس: alaa.fares / alaa2026</p>
-            </div>
+            <p className="text-xs text-gray-500 text-center">
+              للحصول على بيانات الدخول، تواصل مع مدير المكتب الفني
+            </p>
           </div>
         </Card>
       </div>
