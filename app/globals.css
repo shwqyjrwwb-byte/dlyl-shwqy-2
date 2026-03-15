@@ -117,6 +117,7 @@
 @theme inline {
   --font-sans: "Geist", "Geist Fallback", "Cairo", sans-serif;
   --font-mono: "Geist Mono", "Geist Mono Fallback";
+  --breakpoint-xs: 375px;
 }
 
 @layer base {
