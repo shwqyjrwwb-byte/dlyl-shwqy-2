@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { User, UserCircle, ArrowRight, FileText, Loader2, Lock } from "lucide-react"
 import Link from "next/link"
 import { useParams } from "next/navigation"
+import { getCurrentTechnicalUser, isSessionValid, hasAreaAccess } from "@/lib/technical-office-auth"
 
 interface Client {
   id: string
@@ -79,11 +80,29 @@ export default function AreaPage() {
 
   const [clients, setClients] = useState<Client[]>([])
   const [loading, setLoading] = useState(true)
+  const [authChecked, setAuthChecked] = useState(false)
 
   const areaInfo = areasData[areaId]
   const areaName = areaInfo?.name || `المنطقة ${areaId}`
 
   useEffect(() => {
+    // التحقق من جلسة المهندس أولاً
+    const user = getCurrentTechnicalUser()
+    const sessionValid = isSessionValid()
+
+    if (user && sessionValid && hasAreaAccess(user.id, areaId)) {
+      // المهندس مسجل دخول وعنده صلاحية - ادخل مباشرة
+      setAuthChecked(true)
+    } else if (user && sessionValid && !hasAreaAccess(user.id, areaId)) {
+      // مسجل دخول لكن ما عندوش صلاحية لهذه المنطقة
+      router.replace(`/technical-office/login/engineers-login?area=${areaId}`)
+      return
+    } else {
+      // مش مسجل دخول - روح لصفحة تسجيل الدخول
+      router.replace(`/technical-office/login/engineers-login?area=${areaId}`)
+      return
+    }
+
     const fetchClients = async () => {
       try {
         const response = await fetch(`/api/clients-from-folders?areaId=${areaId}`)
@@ -101,14 +120,14 @@ export default function AreaPage() {
     }
 
     fetchClients()
-  }, [areaId])
+  }, [areaId, router])
 
-  if (loading) {
+  if (!authChecked || loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="w-12 h-12 animate-spin text-primary mx-auto mb-4" />
-          <p className="text-muted-foreground">جاري تحميل العملاء...</p>
+          <p className="text-muted-foreground">جاري التحقق...</p>
         </div>
       </div>
     )

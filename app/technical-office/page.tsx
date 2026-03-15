@@ -1,12 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { PageHeader } from "@/components/page-header"
 import { Card } from "@/components/ui/card"
-import { Briefcase, MapPin, FolderOpen, Loader2 } from "lucide-react"
+import { Briefcase, MapPin, FolderOpen, Loader2, LogOut, User } from "lucide-react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
+import { getCurrentTechnicalUser, isSessionValid, logoutTechnicalUser, TechnicalOfficeUser } from "@/lib/technical-office-auth"
 
 interface Client {
   id: string
@@ -87,6 +88,23 @@ export default function TechnicalOfficePage() {
   const router = useRouter()
   const [areas, setAreas] = useState<AreaData[]>(initialAreas)
   const [loading, setLoading] = useState(false)
+  const [currentUser, setCurrentUser] = useState<TechnicalOfficeUser | null>(null)
+
+  useEffect(() => {
+    const user = getCurrentTechnicalUser()
+    if (user && isSessionValid()) {
+      setCurrentUser(user)
+    }
+  }, [])
+
+  const handleLogout = () => {
+    logoutTechnicalUser()
+    setCurrentUser(null)
+  }
+
+  const handleAreaClick = (areaId: number) => {
+    router.replace(`/technical-office/area/${areaId}`)
+  }
 
   const totalClients = areas.reduce((sum, area) => sum + area.clientsCount, 0)
   
@@ -114,6 +132,33 @@ export default function TechnicalOfficePage() {
           
           {/* أزرار التحكم */}
           <div className="flex items-center gap-2 md:gap-4 flex-wrap">
+            {currentUser && (
+              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 bg-primary/10 px-3 py-2 rounded-full border border-primary/20">
+                  <User className="w-4 h-4 text-primary" />
+                  <span className="text-sm font-medium text-primary hidden sm:inline">{currentUser.name}</span>
+                </div>
+                <Button
+                  onClick={handleLogout}
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-2 text-red-500 border-red-200 hover:bg-red-50 hover:text-red-600"
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span className="hidden sm:inline">تسجيل الخروج</span>
+                </Button>
+              </div>
+            )}
+            {!currentUser && (
+              <Button
+                onClick={() => router.replace('/technical-office/login/engineers-login')}
+                variant="outline"
+                className="flex items-center gap-2 hover:bg-primary hover:text-primary-foreground"
+              >
+                <User className="w-4 h-4" />
+                <span className="hidden sm:inline">تسجيل الدخول</span>
+              </Button>
+            )}
             <Button
               onClick={() => router.replace('/')}
               variant="outline"
@@ -169,7 +214,7 @@ export default function TechnicalOfficePage() {
                   {/* زر الدخول للمنطقة مباشرة */}
                   <div className="space-y-2 sm:space-y-3">
                     <Button
-                      onClick={() => router.replace(`/technical-office/area/${area.id}`)}
+                      onClick={() => handleAreaClick(area.id)}
                       className="flex items-center justify-center gap-2 sm:gap-3 w-full py-3 sm:py-4 px-4 sm:px-6 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary text-white rounded-xl transition-all font-bold shadow-lg hover:shadow-xl hover:scale-105 duration-300 h-auto text-sm sm:text-base"
                     >
                       <FolderOpen className="w-5 h-5 sm:w-6 sm:h-6" />
